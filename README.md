@@ -15,6 +15,7 @@ Open [https://mdml.github.io/hacking-bias-in-word-choice/](https://mdml.github.i
 * Jason Cardinal
 * Kai-wei Chang
 * Max Leiserson
+* Prasanth Murali
 * Purva Kamat
 * Roman Lutz
 * Shana Opperman
