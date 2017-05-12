@@ -22,7 +22,7 @@
         <b>Instructions</b>: This is a preliminary version of a tool to help you discover gender bias in your text. All you have to do is type or paste your text in the box below. Our algorithm will then alert you if any of your word choices are associated with gender by highlighting the words in your text that are "close" to a "male" or "female" direction in the <a href='https://www.tensorflow.org/tutorials/word2vec' target='_new'>word2vec</a> word embedding. <span style="background:rgb(0, 179, 229);color:white;">Blue words are stereotypically male</span>, and <span style="background:rgb(255, 182, 193);color:white">pink words are stereotypically female</span> (we are aware this is a stereotype in its own right). Ideally you can improve your text by rewriting it to avoid gender biased words.
         <br/>
         <label for="input-text">Input your text in box below</label>
-        <textarea id="input" class="input-field"></textarea>
+        <textarea id="input" class="input-field">she is lovely, he is smart</textarea>
         <p class="flow-text" style="min-height:600px" id="marked-up"></p>
       </div>
       <footer class="page-footer">
@@ -130,6 +130,7 @@
           })
           .append('span').style({background: 'white' }).text(' ');
       }
+      markup();
     })
   });
 
