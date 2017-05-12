@@ -19,7 +19,7 @@
       <!-- -->
       <br/><br/>
       <div class="col l12">
-        <b>Instructions</b>: This tool helps you discover gender bias in your text. All you have to do is type or paste your text in the box below. Our algorithm will then alert you if there’s the potential for gender bias. Blue words are stereotypically male, red words female. Ideally you can improve your text by rewriting it to avoid gender biased words.
+        <b>Instructions</b>: This is a preliminary version of a tool to help you discover gender bias in your text. All you have to do is type or paste your text in the box below. Our algorithm will then alert you if any of your word choices are associated with gender by highlighting the words in your text that are "close" to a "male" or "female" direction in the <a href='https://www.tensorflow.org/tutorials/word2vec' target='_new'>word2vec</a> word embedding. <span style="background:rgb(0, 179, 229);color:white;">Blue words are stereotypically male</span>, and <span style="background:rgb(255, 182, 193);color:white">pink words are stereotypically female</span> (we are aware this is a stereotype in its own right). Ideally you can improve your text by rewriting it to avoid gender biased words.
         <br/>
         <label for="input-text">Input your text in box below</label>
         <textarea id="input" class="input-field"></textarea>
@@ -30,11 +30,29 @@
           <div class="row">
             <div class="col l6 s12">
               <h5 class="white-text">Credits</h5>
-              <p class="grey-text text-lighten-4">Built at the 2017 Hacking Bias in ML hackathon.</p>
+              <p class="grey-text text-lighten-4">
+                Built at the 2017 <a class="grey-text text-lighten-4" style="text-decoration:underline" href='https://www.eventbrite.com/e/new-england-machine-learning-hackathon-hacking-bias-in-ml-tickets-32951771636?aff=NEML', target='_new'>Hacking Bias in ML hackathon</a> by the Macadamia Team.
+                <ul class="browser-default grey-text text-lighten-4">
+                  <li>Elena Jakubiak</li>
+                  <li>Elliot Creager</li>
+                  <li>Himtanaya Bhadada</li>
+                  <li>Jason Cardinal</li>
+                  <li>Kai-wei Chang</li>
+                  <li>Max Leiserson</li>
+                  <li>Purva Kamat</li>
+                  <li>Roman Lutz</li>
+                  <li>Shana Opperman</li>
+                </ul>
+              </p>
             </div>
             <div class="col l4 offset-l2 s12">
-              <h5 class="white-text"></h5>
-              <ul></ul>
+              <h5 class="white-text">Built with</h5>
+              <ul class="browser-default grey-text text-lighten-4">
+                <li><a class="grey-text text-lighten-4" href='http://d3js.org/' target='_new'>D3</a></li>
+                <li><a class="grey-text text-lighten-4" href='http://jquery.com/' target='_new'>jQuery</a></li>
+                <li><a class="grey-text text-lighten-4" href='http://materializecss.com/' target='_new'>Materialize CSS</a></li>
+                <li><a class="grey-text text-lighten-4" href='https://github.com/mmihaltz/word2vec-GoogleNews-vectors' target='_new'>word2vec</a></li>
+              </ul>
             </div>
           </div>
         </div>

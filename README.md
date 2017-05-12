@@ -1,1 +1,1 @@
-# hacking-bias-in-word-choice
+# Hacking bias in word choice
