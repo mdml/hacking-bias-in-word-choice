@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+<style></style>
+<title>Hacking bias in word choice</title>
+</head>
+<body>
+  <!-- Main HTML -->
+  <div class="container">
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-wrapper teal lighten-2">
+          <a href="#" class="brand-logo" style="margin-left:10px">Hacking bias in word choice</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+          </ul>
+        </div>
+      </nav>
+      <!-- -->
+      <br/><br/>
+      <div class="col l12">
+        <b>Instructions</b>: This tool helps you discover gender bias in your text. All you have to do is type or paste your text in the box below. Our algorithm will then alert you if there’s the potential for gender bias. Blue words are stereotypically male, red words female. Ideally you can improve your text by rewriting it to avoid gender biased words.
+        <br/>
+        <label for="input-text">Input your text in box below</label>
+        <textarea id="input" class="input-field"></textarea>
+        <p class="flow-text" style="min-height:600px" id="marked-up"></p>
+      </div>
+      <footer class="page-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Credits</h5>
+              <p class="grey-text text-lighten-4">Built at the 2017 Hacking Bias in ML hackathon.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+              <h5 class="white-text"></h5>
+              <ul></ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+          © 2017 All Rights Reserved
+          <a class="grey-text text-lighten-4 right" href="#!"></a>
+          </div>
+        </div>
+      </footer>
+  </div>
+  <!-- JAVASCRIPT -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <script>
+  // Elements
+  var input_el = $('textarea#input'),
+      marked_up_el = d3.select('p#marked-up');
+
+  // Make two color scales
+  var light_pink = "rgb(255, 182, 193)",
+      dark_pink = "rgb(169, 19, 12)",
+      light_blue = "rgb(0, 179, 229)",
+      dark_blue = "rgb(47, 60, 113)";
+  var bias_cutoff = 0.06,
+      bias_max = 0.5,
+      neg_scale = d3.scale.linear().domain([-bias_max, bias_cutoff]).range([light_pink, dark_pink]),
+      pos_scale = d3.scale.linear().domain([bias_cutoff, bias_max]).range([light_blue, dark_blue]);
+
+  // Load the data
+  d3.json('wordToBias.json', function(wordToBias){
+    d3.json('adjectives.json', function(adjectives){
+      // Convert adjectives to set
+      var adjectives = d3.set(adjectives);
+      Object.keys(wordToBias).forEach(function(w){
+        if (!adjectives.has(w)) wordToBias[w] = 0;
+      })
+
+      // Add the event listeners
+      input_el.on('keyup', markup);
+      function markup(){
+        var text = input_el.val();
+        marked_up_el.selectAll('*').remove();
+        var paragraphs = marked_up_el.selectAll('p')
+          .data(text.split('\n')).enter()
+          .append('p');
+
+        paragraphs.selectAll('span')
+          .data(function(p){
+            return p.split(' ').map(function(word){
+              var w = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,""),
+                  score = wordToBias[w] ? wordToBias[w] : 0.0;
+              console.log(w, score)
+              return {
+                word: w,
+                raw_word: word,
+                score: score
+              };
+            });
+          }).enter()
+          .append('span')
+          .text(function(d){ return d.raw_word; })
+          .style('background', function(d){
+            if (d.score < -bias_cutoff){
+              return d.score < -bias_max ? dark_pink : neg_scale(d.score);
+            } else if (d.score > bias_cutoff) {
+              return d.score > bias_max ? dark_blue : pos_scale(d.score);
+            } else{
+              return 'white';
+            }
+          })
+          .style('color', function(d){
+            return Math.abs(d.score) > 0.15 ? 'white' : 'black';
+          })
+          .append('span').style({background: 'white' }).text(' ');
+      }
+    })
+  });
+
+
+  </script>
+</body>
